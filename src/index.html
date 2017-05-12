@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>My Angular App!</title>
+    <!-- build:js app.js -->
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="js/app.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body ng-app="flapperNews" ng-controller="MainCtrl">
+
+    <div>
+      {{ test }}
+    </div>
+    <ul ng-repeat="post in posts | orderBy: '-upvotes'">
+      <li>{{ post.title }} - upvotes: {{ post.upvotes }} </li>
+    </ul>
+
+  </body>
+</html>
