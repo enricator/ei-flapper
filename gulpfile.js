@@ -9,11 +9,12 @@ var del 		  = require('del');
 // Where our files are located
 var paths = {
     jsFiles: 'src/js/**/*.js',
-    cssFiles: "src/css/**/*.css",
+    cssFiles: "src/scss/**/*.css",
     sassFiles: "src/scss/**/*.scss",
+    fontFiles: "src/fonts/**/*",
     index: 'src/index.html',
     distDev: './build',
-    distProd: './dist.prod',
+    distProd: './dist',
     distScriptsProd: './dist.prod/scripts',
     scriptsDevServer: 'devServer/**/*.js'
 };
@@ -44,7 +45,13 @@ gulp.task('sass', function(){
   return gulp.src(paths.sassFiles)
   	.on('error', interceptErrors)
     .pipe(sass()) // Using gulp-sass
+    .pipe(concat('app.css'))
     .pipe(gulp.dest(paths.distDev))
+});
+
+gulp.task('fonts', function() {
+  return gulp.src(paths.fontFiles)
+  .pipe(gulp.dest(paths.distDev + '/fonts'))
 });
 
 gulp.task('html_orig', function() {
@@ -64,7 +71,7 @@ gulp.task('clean:build', function() {
   return del.sync(paths.distDev);
 })
 
-gulp.task('default', ['clean:build', 'js', 'sass', 'html'], function() {
+gulp.task('default', ['clean:build', 'fonts', 'js', 'sass', 'html'], function() {
 
   browserSync.init([paths.distDev + '/**/**.**'], {
     server: paths.distDev,
